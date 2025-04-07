@@ -7,20 +7,20 @@ from langchain.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from tempfile import NamedTemporaryFile
 
-# Configuração da API Key
+# Configuration of API Key
 openai_api_key = st.sidebar.text_input("🔑 OpenAI API Key", type="password")
-st.title("📄💬 Chat com PDF")
+st.title("📄💬 Chat with PDF")
 
-uploaded_file = st.file_uploader("Carrega um ficheiro PDF", type=["pdf"])
+uploaded_file = st.file_uploader("Load a PDF file", type=["pdf"])
 
 if uploaded_file and openai_api_key:
-    with st.spinner("📚 A ler o documento..."):
-        # Guardar temporariamente o ficheiro
+    with st.spinner("📚 Reading the document..."):
+        # Save temporarily the file
         with NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
             tmp_file.write(uploaded_file.read())
             pdf_path = tmp_file.name
 
-        # Processar o PDF
+        # Processing the PDF
         loader = PyPDFLoader(pdf_path)
         documents = loader.load_and_split()
         embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
@@ -30,13 +30,13 @@ if uploaded_file and openai_api_key:
             llm=ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key=openai_api_key),
             retriever=retriever
         )
-        st.success("✅ Pronto para conversar!")
+        st.success("✅ Ready to talk!")
 
         # Caixa de chat
-        question = st.text_input("✍️ Escreve a tua pergunta:")
+        question = st.text_input("✍️ Write your question:")
         if question:
-            with st.spinner("A pensar..."):
+            with st.spinner("Thinking..."):
                 answer = chain.run(question)
-                st.markdown(f"**💬 Resposta:** {answer}")
+                st.markdown(f"**💬 Answer:** {answer}")
 else:
-    st.info("🔑 Introduz a tua OpenAI API Key e carrega um PDF.")
+    st.info("🔑 Put your OpenAI API Key and load a pdf file.")
