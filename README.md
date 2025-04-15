@@ -1,7 +1,6 @@
 # 📄💬 Chat with PDF (Streamlit + Langchain)
 
 This is a simple Streamlit app that allows you to chat with the contents of a PDF using natural language. It leverages LLMs (like GPT-3.5/4), Langchain, and embeddings to create an intelligent assistant for documents.
-[Test](https://chat-pdf-app-openai.streamlit.app/)
 
 ---
 
